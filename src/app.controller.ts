@@ -18,12 +18,14 @@ export class AppController {
     return 'Hello World!';
   }
 
-  @Get('api/administrator') // http://localhost:3003/
+  @Get('api/administrator') // http://localhost:3003/api/administrator
   getAllAdministrator():Promise<Administrator[]>{
     return this.administratorService.getAll();
   }
 
-  
-  
+  @Get('/:id') // http://localhost:3003/:id
+  getById():Promise<Administrator>{
+    return this.administratorService.getById(2);
+  }
   
 }

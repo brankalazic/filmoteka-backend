@@ -11,7 +11,7 @@ import { AdministartorService } from './services/administartor/administartor.ser
     TypeOrmModule.forRoot({
       type:'mysql',
       host:DatabaseConfiguration.hostname,
-      port:3306,
+      port:3307, // 3306 UROS I BRANKA
       username:DatabaseConfiguration.username,
       password:DatabaseConfiguration.password,
       database:DatabaseConfiguration.database,
