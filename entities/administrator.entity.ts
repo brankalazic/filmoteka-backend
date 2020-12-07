@@ -1,13 +1,25 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
-export class Administrator{
-    @PrimaryGeneratedColumn({name:'administrator_id', type:'int' ,unsigned:true})
-    administratorId:number;
+@Index("uq_administrator_username", ["username"], { unique: true })
+@Entity("administrator")
+export class Administrator {
+  @PrimaryGeneratedColumn({
+    type: "int",
+    name: "administrator_id",
+    unsigned: true,
+  })
+  administratorId: number;
 
-    @Column({name:'username' ,type:'varchar', unique:true})
-    username:string
+  @Column({
+    type: "varchar",  
+    unique: true, 
+    length: 32 
+  })
+  username: string;
 
-    @Column({name:'password_hash' ,type:'varchar', length:128})
-    password:string
+  @Column({ 
+    name: "password_hash", 
+    length: 128 
+  })
+  passwordHash: string;
 }

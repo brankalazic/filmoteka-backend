@@ -10,12 +10,16 @@ constructor(
     private readonly administartor:Repository<Administrator>
 ){}
 
-getAll():Promise<Administrator[]>{
-    return this.administartor.find();
-}
+    getAll():Promise<Administrator[]>{
+        return this.administartor.find();
+    }
 
-getById(id:number):Promise<Administrator>{
-    return this.administartor.findOne(id);
-}
+    getById(id:number):Promise<Administrator>{
+        return this.administartor.findOne(id);
+    }
+
+    // add 
+    // ediById
+    // deleteById
    
 }
