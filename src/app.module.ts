@@ -6,7 +6,8 @@ import { Rate } from 'entities/rate.entity';
 import { User } from 'entities/user.entity';
 import { DatabaseConfiguration } from '../config/database';
 import { Administrator } from '../entities/administrator.entity';
-import { AppController } from './app.controller';
+import { AdministratorController } from './controllers/api/administrator.controller';
+import { AppController } from './controllers/app.controller';
 import { AdministartorService } from './services/administartor/administartor.service';
 
 
@@ -35,7 +36,10 @@ import { AdministartorService } from './services/administartor/administartor.ser
       User
     ])
   ],
-  controllers: [AppController],
+  controllers: [
+    AppController,
+    AdministratorController
+  ],
   providers: [AdministartorService],
 })
 export class AppModule {}
