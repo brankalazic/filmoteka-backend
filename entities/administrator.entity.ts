@@ -8,7 +8,7 @@ import {
 import { Comment } from "./comment.entity";
 
 @Index("uq_administrator_username", ["username"], { unique: true })
-@Entity("administrator", { schema: "filmoteka" })
+@Entity("administrator")
 export class Administrator {
   @PrimaryGeneratedColumn({
     type: "int",
@@ -17,10 +17,10 @@ export class Administrator {
   })
   administratorId: number;
 
-  @Column("varchar", { name: "username", unique: true, length: 32 })
+  @Column({type: "varchar", unique: true, length: 32 })
   username: string;
 
-  @Column("varchar", { name: "password_hash", length: 128 })
+  @Column({type: "varchar", name: "password_hash", length: 128 })
   passwordHash: string;
 
   @OneToMany(() => Comment, (comment) => comment.moderatorAdministrator)

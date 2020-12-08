@@ -3,24 +3,36 @@ import { Cart } from "./cart.entity";
 import { Comment } from "./comment.entity";
 import { MoviePrice } from "./movie-price.entity";
 
-@Entity("movie", { schema: "filmoteka" })
+@Entity("movie")
 export class Movie {
   @PrimaryGeneratedColumn({ type: "int", name: "movie_id", unsigned: true })
   movieId: number;
 
-  @Column("varchar", { name: "name", length: 64 })
+  @Column({
+    type: "varchar", 
+    name: "name", 
+    length: 64 })
   name: string;
 
-  @Column("text", { name: "description" })
+  @Column({
+    type: "text",  
+    name: "description" 
+  })
   description: string;
 
-  @Column("varchar", { name: "genre", nullable: true, length: 64 })
+  @Column({
+    type: "varchar", 
+    name: "genre", 
+    nullable: true, 
+    length: 64 
+  })
   genre: string | null;
 
-  @Column("year", { name: "year" })
+  @Column({type: "year", name: "year" })
   year: number;
 
-  @Column("decimal", {
+  @Column({
+    type: "decimal",
     name: "rating",
     unsigned: true,
     precision: 10,

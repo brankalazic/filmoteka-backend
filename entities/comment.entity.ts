@@ -18,41 +18,62 @@ import { User } from "./user.entity";
 )
 @Index("fk_comment_user_id", ["userId"], {})
 @Index("fk_comment_movie_id", ["movieId"], {})
-@Entity("comment", { schema: "filmoteka" })
+@Entity("comment")
 export class Comment {
   @PrimaryGeneratedColumn({ type: "int", name: "comment_id", unsigned: true })
   commentId: number;
 
-  @Column("int", { name: "user_id", unsigned: true })
+  @Column({
+    type:"int", 
+    name: "user_id", 
+    unsigned: true
+  })
   userId: number;
 
-  @Column("int", { name: "movie_id", unsigned: true })
+  @Column({
+    type:"int", 
+    name: "movie_id", 
+    unsigned: true 
+  })
   movieId: number;
 
-  @Column("mediumtext", { name: "original_value" })
+  @Column({
+    type:"mediumtext", 
+    name: "original_value" 
+  })
   originalValue: string;
 
-  @Column("mediumtext", { name: "moderated_value" })
+  @Column({
+    type: "mediumtext", 
+    name: "moderated_value" 
+  })
   moderatedValue: string;
 
-  @Column("tinyint", { name: "rating_value", width: 1 })
+  @Column({
+    type:"tinyint", 
+    name: "rating_value", 
+    width: 1 
+  })
   ratingValue: boolean;
 
-  @Column("enum", {
+  @Column({
+    type: "enum", 
     name: "status",
     enum: ["pending", "approved", "denied"],
     default: () => "'pending'",
   })
   status: "pending" | "approved" | "denied";
 
-  @Column("int", {
+  @Column({
+    type: "int", 
     name: "moderator_administrator_id",
     nullable: true,
     unsigned: true,
   })
   moderatorAdministratorId: number | null;
 
-  @Column("timestamp", {
+  @Column({
+    type: "timestamp", 
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
