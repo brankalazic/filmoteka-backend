@@ -1,32 +1,26 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Cart } from "./cart.entity";
-import { Rate } from "./rate.entity";
+import { Comment } from "./comment.entity";
+import { MoviePrice } from "./movie-price.entity";
 
-@Entity("movie")
+@Entity("movie", { schema: "filmoteka" })
 export class Movie {
   @PrimaryGeneratedColumn({ type: "int", name: "movie_id", unsigned: true })
   movieId: number;
 
-  @Column({type: "varchar", length: 64 })
+  @Column("varchar", { name: "name", length: 64 })
   name: string;
 
-  @Column({type: "text",  name: "description" })
+  @Column("text", { name: "description" })
   description: string;
 
-  @Column({type: "varchar", nullable: true, length: 64 })
+  @Column("varchar", { name: "genre", nullable: true, length: 64 })
   genre: string | null;
 
-  @Column({
-    type: "decimal", 
-    unsigned: true,
-    precision: 10,
-    scale: 2,
-    default: () => "'0.00'",
-  })
-  price: string;
+  @Column("year", { name: "year" })
+  year: number;
 
-  @Column({
-    type: "decimal", 
+  @Column("decimal", {
     name: "rating",
     unsigned: true,
     precision: 10,
@@ -38,6 +32,9 @@ export class Movie {
   @OneToMany(() => Cart, (cart) => cart.movie)
   carts: Cart[];
 
-  @OneToMany(() => Rate, (rate) => rate.movie)
-  rates: Rate[];
+  @OneToMany(() => Comment, (comment) => comment.movie)
+  comments: Comment[];
+
+  @OneToMany(() => MoviePrice, (moviePrice) => moviePrice.movie)
+  moviePrices: MoviePrice[];
 }

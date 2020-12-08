@@ -11,21 +11,18 @@ import { User } from "./user.entity";
 
 @Index("fk_cart_user_id", ["userId"], {})
 @Index("fk_cart_movie_id", ["movieId"], {})
-@Entity("cart")
+@Entity("cart", { schema: "filmoteka" })
 export class Cart {
   @PrimaryGeneratedColumn({ type: "int", name: "cart_id", unsigned: true })
   cartId: number;
 
-  @Column({
-    type: "int", name: "user_id", unsigned: true 
-  })
+  @Column("int", { name: "user_id", unsigned: true })
   userId: number;
 
-  @Column({type: "int", name: "movie_id", unsigned: true })
+  @Column("int", { name: "movie_id", unsigned: true })
   movieId: number;
 
-  @Column({
-    type: "timestamp", 
+  @Column("timestamp", {
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })

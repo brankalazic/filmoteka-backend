@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Administrator } from 'entities/administrator.entity';
-import { AddAdministratorDto } from 'src/dtos/administrator/add.administrator.dto';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
-import { EditAdministratorDto } from 'src/dtos/administrator/edit.administrator.dto';
+import { Administrator } from '../../../entities/administrator.entity';
+import { AddAdministratorDto } from '../../dtos/administrator/add.administrator.dto';
+import { EditAdministratorDto } from '../../dtos/administrator/edit.administrator.dto';
 
 @Injectable()
 export class AdministartorService {

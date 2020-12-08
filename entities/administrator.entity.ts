@@ -1,7 +1,14 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Comment } from "./comment.entity";
 
 @Index("uq_administrator_username", ["username"], { unique: true })
-@Entity("administrator")
+@Entity("administrator", { schema: "filmoteka" })
 export class Administrator {
   @PrimaryGeneratedColumn({
     type: "int",
@@ -10,16 +17,12 @@ export class Administrator {
   })
   administratorId: number;
 
-  @Column({
-    type: "varchar",  
-    unique: true, 
-    length: 32 
-  })
+  @Column("varchar", { name: "username", unique: true, length: 32 })
   username: string;
 
-  @Column({ 
-    name: "password_hash", 
-    length: 128 
-  })
+  @Column("varchar", { name: "password_hash", length: 128 })
   passwordHash: string;
+
+  @OneToMany(() => Comment, (comment) => comment.moderatorAdministrator)
+  comments: Comment[];
 }

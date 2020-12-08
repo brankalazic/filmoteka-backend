@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Cart } from 'entities/cart.entity';
-import { Movie } from 'entities/movie.entity';
-import { Rate } from 'entities/rate.entity';
-import { User } from 'entities/user.entity';
+
 import { DatabaseConfiguration } from '../config/database';
 import { Administrator } from '../entities/administrator.entity';
+import { Cart } from '../entities/cart.entity';
+import { Comment } from '../entities/comment.entity';
+import { MoviePrice } from '../entities/movie-price.entity';
+import { Movie } from '../entities/movie.entity';
+import { Order } from '../entities/order.entity';
+import { User } from '../entities/user.entity';
 import { AdministratorController } from './controllers/api/administrator.controller';
 import { AppController } from './controllers/app.controller';
 import { AdministartorService } from './services/administartor/administartor.service';
@@ -22,18 +25,22 @@ import { AdministartorService } from './services/administartor/administartor.ser
       database: DatabaseConfiguration.database,
       entities:[
         Administrator,
+        User,
         Cart,
+        Comment,
         Movie,
-        Rate,
-        User
+        MoviePrice,
+        Order,
       ]
     }),
     TypeOrmModule.forFeature([
       Administrator,
+      User,
       Cart,
+      Comment,
       Movie,
-      Rate,
-      User
+      MoviePrice,
+      Order,
     ])
   ],
   controllers: [
