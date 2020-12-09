@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Cart } from "./cart.entity";
 import { Comment } from "./comment.entity";
 import { MoviePrice } from "./movie-price.entity";
@@ -9,37 +9,42 @@ export class Movie {
   movieId: number;
 
   @Column({
-    type: "varchar", 
-    name: "name", 
+    type: "varchar",
     length: 64 })
   name: string;
 
   @Column({
     type: "text",  
-    name: "description" 
   })
   description: string;
 
   @Column({
     type: "varchar", 
-    name: "genre", 
     nullable: true, 
     length: 64 
   })
   genre: string | null;
 
-  @Column({type: "year", name: "year" })
+  @Column({type: "year"})
   year: number;
 
   @Column({
     type: "decimal",
-    name: "rating",
     unsigned: true,
     precision: 10,
     scale: 2,
     default: () => "'0.00'",
   })
   rating: string;
+
+  // ova je dodata zasebno
+  // @ManyToMany(type => Comment, comment => comment.movies)
+  // @JoinTable({
+  //   name: "movie",
+  //   joinColumn: { name: "user_id", referencedColumnName: "userId"},
+  //   inverseJoinColumn: { name: "movie_id", referencedColumnName: "movieId"}
+  // })
+  // comments1: Comment[];
 
   @OneToMany(() => Cart, (cart) => cart.movie)
   carts: Cart[];

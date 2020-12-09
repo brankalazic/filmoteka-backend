@@ -18,13 +18,22 @@ export class MoviePrice {
   })
   moviePriceId: number;
 
-  @Column({type: "int", name: "movie_id", unsigned: true })
+  @Column({
+    type: "int", 
+    name: "movie_id", 
+    unsigned: true })
   movieId: number;
 
-  @Column({type: "decimal", name: "price", unsigned: true, precision: 10, scale: 2 })
+  @Column({
+    type: "decimal", 
+    unsigned: true, 
+    precision: 10, 
+    scale: 2 
+  })
   price: string;
 
-  @Column("timestamp", {
+  @Column({
+    type: "timestamp", 
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })

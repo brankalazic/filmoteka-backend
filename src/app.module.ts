@@ -1,17 +1,22 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { MoviePrice } from 'entities/movie-price.entity';
 import { DatabaseConfiguration } from '../config/database';
 import { Administrator } from '../entities/administrator.entity';
 import { Cart } from '../entities/cart.entity';
 import { Comment } from '../entities/comment.entity';
-import { MoviePrice } from '../entities/movie-price.entity';
 import { Movie } from '../entities/movie.entity';
 import { Order } from '../entities/order.entity';
 import { User } from '../entities/user.entity';
 import { AdministratorController } from './controllers/api/administrator.controller';
+import { CommentController } from './controllers/api/comment.controller';
+import { MoviePriceController } from './controllers/api/movie-price.controller';
+import { MovieController } from './controllers/api/movie.controller';
 import { AppController } from './controllers/app.controller';
 import { AdministartorService } from './services/administartor/administartor.service';
+import { CommentService } from './services/comment/comment.service';
+import { MoviePriceService } from './services/movie-price/movie-price.service';
+import { MovieService } from './services/movie/movie.service';
 
 
 @Module({
@@ -45,8 +50,16 @@ import { AdministartorService } from './services/administartor/administartor.ser
   ],
   controllers: [
     AppController,
-    AdministratorController
+    AdministratorController,
+    MovieController,
+    MoviePriceController,
+    CommentController,
   ],
-  providers: [AdministartorService],
+  providers: [
+    AdministartorService,
+    MovieService,
+    MoviePriceService,
+    CommentService,
+  ],
 })
 export class AppModule {}

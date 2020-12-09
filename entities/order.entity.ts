@@ -9,22 +9,27 @@ import {
 import { User } from "./user.entity";
 
 @Index("fk_order_user_id", ["userId"], {})
-@Entity("order", { schema: "filmoteka" })
+@Entity("order")
 export class Order {
-  @PrimaryGeneratedColumn({ type: "int", name: "order_id", unsigned: true })
+  @PrimaryGeneratedColumn({
+    type: "int", 
+    name: "order_id", 
+    unsigned: true 
+  })
   orderId: number;
 
-  @Column("int", { name: "user_id", unsigned: true })
+  @Column({type:"int", name: "user_id", unsigned: true })
   userId: number;
 
-  @Column("timestamp", {
+  @Column({
+    type: "timestamp", 
     name: "created_at",
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt: Date;
 
-  @Column("enum", {
-    name: "status",
+  @Column({
+    type: "enum", 
     enum: ["paid", "not paid", "waiting"],
     default: () => "'waiting'",
   })

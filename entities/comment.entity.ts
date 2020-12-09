@@ -1,8 +1,11 @@
+import { type } from "os";
 import {
   Column,
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -45,9 +48,10 @@ export class Comment {
 
   @Column({
     type: "mediumtext", 
-    name: "moderated_value" 
+    name: "moderated_value",
+    nullable: true,
   })
-  moderatedValue: string;
+  moderatedValue: string | null;
 
   @Column({
     type:"tinyint", 
@@ -58,7 +62,6 @@ export class Comment {
 
   @Column({
     type: "enum", 
-    name: "status",
     enum: ["pending", "approved", "denied"],
     default: () => "'pending'",
   })
@@ -78,6 +81,15 @@ export class Comment {
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt: Date;
+
+  // ova je dodata zasebno
+  // @ManyToMany(type => Movie, movie => movie.moviePrices)
+  // @JoinTable({
+  //   name: "movie",
+  //   joinColumn: { name: "movie_id", referencedColumnName: "movieId"},
+  //   inverseJoinColumn: { name: "user_id", referencedColumnName: "userId"}
+  // })
+  // movies: Movie[];
 
   @ManyToOne(() => Administrator, (administrator) => administrator.comments, {
     onDelete: "RESTRICT",

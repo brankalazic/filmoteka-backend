@@ -24,7 +24,6 @@ export class AdministratorController {
             if (admin === undefined) {
                 resolve(new ApiResponse("error", -1002));
             }
-
             resolve(admin);
         })
         
