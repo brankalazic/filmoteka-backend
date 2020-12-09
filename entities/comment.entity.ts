@@ -58,7 +58,7 @@ export class Comment {
     name: "rating_value", 
     width: 1 
   })
-  ratingValue: boolean;
+  ratingValue: number;
 
   @Column({
     type: "enum", 

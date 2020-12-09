@@ -16,19 +16,19 @@ export class User {
   @PrimaryGeneratedColumn({ type: "int", name: "user_id", unsigned: true })
   userId: number;
 
-  @Column("varchar", { name: "email", unique: true, length: 64 })
+  @Column({type: "varchar",  name: "email", unique: true, length: 64 })
   email: string;
 
-  @Column("varchar", { name: "forename", length: 64 })
+  @Column({type: "varchar", name: "forename", length: 64 })
   forename: string;
 
-  @Column("varchar", { name: "surname", length: 64 })
+  @Column({type: "varchar", name: "surname", length: 64 })
   surname: string;
 
-  @Column("varchar", { name: "username", unique: true, length: 64 })
+  @Column({type:"varchar", name: "username", unique: true, length: 64 })
   username: string;
 
-  @Column("varchar", { name: "password_hash", length: 128 })
+  @Column({type:"varchar", name: "password_hash", length: 128 })
   passwordHash: string;
 
   @OneToMany(() => Cart, (cart) => cart.user)

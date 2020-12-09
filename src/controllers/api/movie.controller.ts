@@ -1,6 +1,7 @@
-import { Controller } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { Movie } from "entities/movie.entity";
+import { AddMovieDto } from "src/dtos/movie/add.movie.dto";
 import { MovieService } from "src/services/movie/movie.service";
 
 @Controller('api/movie')
@@ -28,4 +29,9 @@ import { MovieService } from "src/services/movie/movie.service";
 })
 export class MovieController {
     constructor(public service: MovieService) {}
+
+    @Post('createFull') // api/article/createFull
+    createFullMovie(@Body() data: AddMovieDto) {
+        return this.service.createFullMovie(data);
+    }
 }

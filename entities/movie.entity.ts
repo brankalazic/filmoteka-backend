@@ -26,7 +26,7 @@ export class Movie {
   genre: string | null;
 
   @Column({type: "year"})
-  year: number;
+  year: string;
 
   @Column({
     type: "decimal",
@@ -35,7 +35,7 @@ export class Movie {
     scale: 2,
     default: () => "'0.00'",
   })
-  rating: string;
+  rating: number;
 
   // ova je dodata zasebno
   // @ManyToMany(type => Comment, comment => comment.movies)
