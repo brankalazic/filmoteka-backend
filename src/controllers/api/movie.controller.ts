@@ -30,7 +30,7 @@ import { MovieService } from "src/services/movie/movie.service";
 export class MovieController {
     constructor(public service: MovieService) {}
 
-    @Post('createFull') // api/article/createFull
+    @Post('createFull') // api/movie/createFull
     createFullMovie(@Body() data: AddMovieDto) {
         return this.service.createFullMovie(data);
     }

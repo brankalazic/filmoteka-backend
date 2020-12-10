@@ -9,6 +9,7 @@ import { Movie } from '../entities/movie.entity';
 import { Order } from '../entities/order.entity';
 import { User } from '../entities/user.entity';
 import { AdministratorController } from './controllers/api/administrator.controller';
+import { AuthController } from './controllers/api/auth.controller';
 import { CommentController } from './controllers/api/comment.controller';
 import { MoviePriceController } from './controllers/api/movie-price.controller';
 import { MovieController } from './controllers/api/movie.controller';
@@ -54,6 +55,7 @@ import { MovieService } from './services/movie/movie.service';
     MovieController,
     MoviePriceController,
     CommentController,
+    AuthController
   ],
   providers: [
     AdministartorService,
