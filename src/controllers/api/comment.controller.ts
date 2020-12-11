@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
-import { Comment } from "entities/comment.entity";
+import { Comment } from "src/entities/comment.entity";
 import { CommentService } from "src/services/comment/comment.service";
 
 @Controller('api/comment')

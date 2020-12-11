@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as crypto from 'crypto';
-import { Administrator } from '../../../entities/administrator.entity';
+import { Administrator } from '../../entities/administrator.entity';
 import { AddAdministratorDto } from '../../dtos/administrator/add.administrator.dto';
 import { EditAdministratorDto } from '../../dtos/administrator/edit.administrator.dto';
 import { ApiResponse } from '../../misc/api.response.class';

@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
-import { Movie } from "entities/movie.entity";
+import { Movie } from "src/entities/movie.entity";
 import { AddMovieDto } from "src/dtos/movie/add.movie.dto";
 import { MovieService } from "src/services/movie/movie.service";
 

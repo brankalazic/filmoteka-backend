@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
-import { Comment } from "entities/comment.entity";
-import { MoviePrice } from "entities/movie-price.entity";
-import { Movie } from "entities/movie.entity";
+import { Comment } from "src/entities/comment.entity";
+import { MoviePrice } from "src/entities/movie-price.entity";
+import { Movie } from "src/entities/movie.entity";
 import { AddMovieDto } from "src/dtos/movie/add.movie.dto";
 import { ApiResponse } from "src/misc/api.response.class";
 import { Repository } from "typeorm";
