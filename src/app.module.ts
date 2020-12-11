@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MoviePrice } from 'entities/movie-price.entity';
 import { DatabaseConfiguration } from '../config/database';
@@ -14,6 +14,7 @@ import { CommentController } from './controllers/api/comment.controller';
 import { MoviePriceController } from './controllers/api/movie-price.controller';
 import { MovieController } from './controllers/api/movie.controller';
 import { AppController } from './controllers/app.controller';
+import { AuthMiddleware } from './middlewares/auth.middleware';
 import { AdministartorService } from './services/administartor/administartor.service';
 import { CommentService } from './services/comment/comment.service';
 import { MoviePriceService } from './services/movie-price/movie-price.service';
@@ -63,5 +64,14 @@ import { MovieService } from './services/movie/movie.service';
     MoviePriceService,
     CommentService,
   ],
+  exports: [
+    AdministartorService,
+  ]
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).exclude('auth/*') // skip sve sto pocinje sa auth
+    .forRoutes('api/'); // a jesu api
+  }
+  
+}
