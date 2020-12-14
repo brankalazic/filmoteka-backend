@@ -19,6 +19,7 @@ import { AdministartorService } from './services/administartor/administartor.ser
 import { CommentService } from './services/comment/comment.service';
 import { MoviePriceService } from './services/movie-price/movie-price.service';
 import { MovieService } from './services/movie/movie.service';
+import { UserService } from './services/user/user.service';
 
 
 @Module({
@@ -60,6 +61,7 @@ import { MovieService } from './services/movie/movie.service';
   ],
   providers: [
     AdministartorService,
+    UserService,
     MovieService,
     MoviePriceService,
     CommentService,
