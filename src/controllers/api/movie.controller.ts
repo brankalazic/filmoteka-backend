@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Param, Patch, Post } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { Movie } from "src/entities/movie.entity";
 import { AddMovieDto } from "src/dtos/movie/add.movie.dto";
 import { MovieService } from "src/services/movie/movie.service";
+import { EditMovieDto } from "src/dtos/movie/edit.movie.dto";
 
 @Controller('api/movie')
 @Crud({
@@ -25,6 +26,10 @@ import { MovieService } from "src/services/movie/movie.service";
                 eager: false
             },
         }
+    },
+    // sklanjamo edit mogucnosti preko crud-a
+    routes: {
+        exclude: [ 'updateOneBase', 'replaceOneBase', 'deleteOneBase' ],
     }
 })
 export class MovieController {
@@ -33,5 +38,10 @@ export class MovieController {
     @Post('createFull') // api/movie/createFull
     createFullMovie(@Body() data: AddMovieDto) {
         return this.service.createFullMovie(data);
+    }
+
+    @Patch(':id') // 'api/movie/2
+    editFullMovie(@Param('id') id: number, @Body() data: EditMovieDto) {
+        return this.service.editFullMovie(id, data);
     }
 }

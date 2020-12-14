@@ -1,4 +1,4 @@
-export class AddMovieDto {
+export class EditMovieDto {
     name: string;
     description: string;
     genre: string;
