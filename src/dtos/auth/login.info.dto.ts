@@ -1,4 +1,4 @@
-export class LoginInfoAdministratorDto {
+export class LoginInfoDto {
     administratorId: number;
     username: string;
     token: string;
