@@ -24,6 +24,39 @@ import { CommentService } from "src/services/comment/comment.service";
                eager: true
            },
         }
+    },
+    routes: {
+        only: [
+            "createOneBase",
+            "createManyBase",
+            "getManyBase",
+            "getOneBase",
+            "updateOneBase",
+        ],
+        createOneBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator', 'user'),
+            ]
+        },
+        updateOneBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator'), // mozda oba ?
+            ]
+        }, 
+        getManyBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator', 'user'),
+            ]
+        },  
+        getOneBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator', 'user'),
+            ]
+        },   
     }
 })
 export class CommentController {

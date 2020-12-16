@@ -31,12 +31,27 @@ import { RoleCheckerGuard } from "src/misc/role.checker.guard";
     },
     // sklanjamo edit mogucnosti preko crud-a
     routes: {
-        exclude: [ 'updateOneBase', 'replaceOneBase', 'deleteOneBase' ],
+        //exclude: [ 'updateOneBase', 'replaceOneBase', 'deleteOneBase' ],
+        only: [
+            "getManyBase",
+            "getOneBase",
+        ],
+        getManyBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator', 'user'),
+            ]
+        },  
+        getOneBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator', 'user'),
+            ]
+        },
     }
 })
 export class MovieController {
     constructor(public service: MovieService) {}
-
 
     @Post('createFull') // api/movie/createFull
     @UseGuards(RoleCheckerGuard)
