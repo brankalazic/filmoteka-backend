@@ -1,7 +1,9 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, UseGuards } from "@nestjs/common";
 import { Crud } from "@nestjsx/crud";
 import { AddCommentDto } from "src/dtos/comment/add.comment.dto";
 import { Comment } from "src/entities/comment.entity";
+import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
+import { RoleCheckerGuard } from "src/misc/role.checker.guard";
 import { CommentService } from "src/services/comment/comment.service";
 
 @Controller('api/comment')
@@ -26,9 +28,11 @@ import { CommentService } from "src/services/comment/comment.service";
 })
 export class CommentController {
     constructor(public service: CommentService) {}
-
+    // mozda nece raditi
     @Post('createFull') // api/comment/createFull
-    createFullMovie(@Body() data: AddCommentDto) {
+    @UseGuards(RoleCheckerGuard)
+    @AllowToRoles('administrator', 'user')
+    createFullComment(@Body() data: AddCommentDto) {
         return this.service.createFullComment(data);
     }
 }
