@@ -1,11 +1,8 @@
-import { type } from "os";
 import {
   Column,
   Entity,
   Index,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
@@ -23,41 +20,25 @@ import { User } from "./user.entity";
 @Index("fk_comment_movie_id", ["movieId"], {})
 @Entity("comment")
 export class Comment {
-  @PrimaryGeneratedColumn({ type: "int", name: "comment_id", unsigned: true })
+  @PrimaryGeneratedColumn({ 
+    type: "int",
+    name: "comment_id", 
+    unsigned: true })
   commentId: number;
 
-  @Column({
-    type:"int", 
-    name: "user_id", 
-    unsigned: true
-  })
+  @Column({type:"int",  name: "user_id", unsigned: true })
   userId: number;
 
-  @Column({
-    type:"int", 
-    name: "movie_id", 
-    unsigned: true 
-  })
+  @Column({type: "int", name: "movie_id", unsigned: true })
   movieId: number;
 
-  @Column({
-    type:"mediumtext", 
-    name: "original_value" 
-  })
+  @Column({type: "mediumtext", name: "original_value" })
   originalValue: string;
 
-  @Column({
-    type: "mediumtext", 
-    name: "moderated_value",
-    nullable: true,
-  })
+  @Column({type: "mediumtext", name: "moderated_value", nullable: true })
   moderatedValue: string | null;
 
-  @Column({
-    type:"tinyint", 
-    name: "rating_value", 
-    width: 1 
-  })
+  @Column({type: "tinyint", name: "rating_value", width: 1 })
   ratingValue: number;
 
   @Column({
@@ -81,15 +62,6 @@ export class Comment {
     default: () => "CURRENT_TIMESTAMP",
   })
   createdAt: Date;
-
-  // ova je dodata zasebno
-  // @ManyToMany(type => Movie, movie => movie.moviePrices)
-  // @JoinTable({
-  //   name: "movie",
-  //   joinColumn: { name: "movie_id", referencedColumnName: "movieId"},
-  //   inverseJoinColumn: { name: "user_id", referencedColumnName: "userId"}
-  // })
-  // movies: Movie[];
 
   @ManyToOne(() => Administrator, (administrator) => administrator.comments, {
     onDelete: "RESTRICT",

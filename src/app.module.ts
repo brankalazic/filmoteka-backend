@@ -13,6 +13,7 @@ import { AuthController } from './controllers/api/auth.controller';
 import { CommentController } from './controllers/api/comment.controller';
 import { MoviePriceController } from './controllers/api/movie-price.controller';
 import { MovieController } from './controllers/api/movie.controller';
+import { UserCartController } from './controllers/api/user.cart.controller';
 import { AppController } from './controllers/app.controller';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { AdministartorService } from './services/administartor/administartor.service';
@@ -20,6 +21,8 @@ import { CommentService } from './services/comment/comment.service';
 import { MoviePriceService } from './services/movie-price/movie-price.service';
 import { MovieService } from './services/movie/movie.service';
 import { UserService } from './services/user/user.service';
+import { CartMovie } from './entities/cart-movie.entity';
+import { CartService } from './services/cart/cart.service';
 
 
 @Module({
@@ -39,6 +42,7 @@ import { UserService } from './services/user/user.service';
         Movie,
         MoviePrice,
         Order,
+        CartMovie
       ]
     }),
     TypeOrmModule.forFeature([
@@ -49,6 +53,7 @@ import { UserService } from './services/user/user.service';
       Movie,
       MoviePrice,
       Order,
+      CartMovie
     ])
   ],
   controllers: [
@@ -57,7 +62,8 @@ import { UserService } from './services/user/user.service';
     MovieController,
     MoviePriceController,
     CommentController,
-    AuthController
+    AuthController,
+    UserCartController
   ],
   providers: [
     AdministartorService,
@@ -65,6 +71,7 @@ import { UserService } from './services/user/user.service';
     MovieService,
     MoviePriceService,
     CommentService,
+    CartService,
   ],
   exports: [
     AdministartorService,

@@ -1,35 +1,41 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Cart } from "./cart.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { CartMovie } from "./cart-movie.entity";
 import { Comment } from "./comment.entity";
 import { MoviePrice } from "./movie-price.entity";
 
 @Entity("movie")
 export class Movie {
-  @PrimaryGeneratedColumn({ type: "int", name: "movie_id", unsigned: true })
+  @PrimaryGeneratedColumn({ 
+    type: "int", 
+    name: "movie_id", 
+    unsigned: true 
+  })
   movieId: number;
 
   @Column({
-    type: "varchar",
-    length: 64 })
+  type: "varchar",
+  length: 64 
+})
   name: string;
 
   @Column({
-    type: "text",  
+    type: "text"
   })
   description: string;
 
   @Column({
     type: "varchar", 
     nullable: true, 
-    length: 64 
-  })
+    length: 64 })
   genre: string | null;
 
-  @Column({type: "year"})
+  @Column({
+    type: "year",
+  })
   year: string;
 
   @Column({
-    type: "decimal",
+    type: "decimal", 
     unsigned: true,
     precision: 10,
     scale: 2,
@@ -37,17 +43,8 @@ export class Movie {
   })
   rating: number;
 
-  // ova je dodata zasebno
-  // @ManyToMany(type => Comment, comment => comment.movies)
-  // @JoinTable({
-  //   name: "movie",
-  //   joinColumn: { name: "user_id", referencedColumnName: "userId"},
-  //   inverseJoinColumn: { name: "movie_id", referencedColumnName: "movieId"}
-  // })
-  // comments1: Comment[];
-
-  @OneToMany(() => Cart, (cart) => cart.movie)
-  carts: Cart[];
+  @OneToMany(() => CartMovie, (cartMovie) => cartMovie.movie)
+  cartMovies: CartMovie[];
 
   @OneToMany(() => Comment, (comment) => comment.movie)
   comments: Comment[];

@@ -17,10 +17,15 @@ export class Administrator {
   })
   administratorId: number;
 
-  @Column({type: "varchar", unique: true, length: 32 })
+  @Column({type:"varchar", 
+  unique: true, 
+  length: 32 
+})
   username: string;
 
-  @Column({type: "varchar", name: "password_hash", length: 128 })
+  @Column({type:"varchar", 
+  name: "password_hash", 
+  length: 128 })
   passwordHash: string;
 
   @OneToMany(() => Comment, (comment) => comment.moderatorAdministrator)

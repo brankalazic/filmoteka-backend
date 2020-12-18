@@ -38,6 +38,12 @@ import { MoviePriceService } from "src/services/movie-price/movie-price.service"
                 AllowToRoles('administrator'),
             ]
         },
+        createManyBase: {
+            decorators: [
+                UseGuards(RoleCheckerGuard),
+                AllowToRoles('administrator'),
+            ]
+        },
         updateOneBase: {
             decorators: [
                 UseGuards(RoleCheckerGuard),

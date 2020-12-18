@@ -21,7 +21,8 @@ export class MoviePrice {
   @Column({
     type: "int", 
     name: "movie_id", 
-    unsigned: true })
+    unsigned: true 
+  })
   movieId: number;
 
   @Column({
