@@ -1,7 +1,7 @@
 export const DatabaseConfiguration = {
     hostname:'localhost',
-    username:'filmoteka',
-    password:'filmoteka',
+    username:'root',
+    password:'',
     database:'filmoteka'
 }
 

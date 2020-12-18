@@ -30,7 +30,7 @@ import { CartService } from './services/cart/cart.service';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: DatabaseConfiguration.hostname,
-      port: 3307, // 3306 UROS I BRANKA
+      port: 3306, // 3306 UROS I BRANKA
       username: DatabaseConfiguration.username,
       password: DatabaseConfiguration.password,
       database: DatabaseConfiguration.database,
