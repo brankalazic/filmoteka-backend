@@ -79,6 +79,7 @@ export class CartService {
                 "user",
                 "cartMovies",
                 "cartMovies.movie",
+                "cartMovies.movie.moviePrices",
             ],
         });
     }
