@@ -9,6 +9,7 @@ import {
 import { Administrator } from "./administrator.entity";
 import { Movie } from "./movie.entity";
 import { User } from "./user.entity";
+import * as Validator from 'class-validator';
 
 @Index("uq_comment_user_id_movie_id", ["userId", "movieId"], { unique: true })
 @Index(
@@ -33,12 +34,19 @@ export class Comment {
   movieId: number;
 
   @Column({type: "mediumtext", name: "original_value" })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.Length(64, 10000)
   originalValue: string;
 
   @Column({type: "mediumtext", name: "moderated_value", nullable: true })
+  @Validator.IsString()
+  @Validator.Length(64, 10000)
   moderatedValue: string | null;
 
   @Column({type: "tinyint", name: "rating_value", width: 1 })
+  @Validator.IsNotEmpty()
+  @Validator.IsNumber()
   ratingValue: number;
 
   @Column({
@@ -46,6 +54,9 @@ export class Comment {
     enum: ["pending", "approved", "denied"],
     default: () => "'pending'",
   })
+  @Validator.IsNotEmpty()
+  @Validator.IsString()
+  @Validator.IsIn(["pending", "approved", "denied"])
   status: "pending" | "approved" | "denied";
 
   @Column({

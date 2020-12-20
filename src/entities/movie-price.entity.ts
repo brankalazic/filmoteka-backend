@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Movie } from "./movie.entity";
+import * as Validator from 'class-validator';
 
 @Index("fk_movie_price_movie_id", ["movieId"], {})
 @Entity("movie_price")
@@ -30,6 +31,13 @@ export class MoviePrice {
     unsigned: true, 
     precision: 10, 
     scale: 2 
+  })
+  @Validator.IsNotEmpty()
+  @Validator.IsPositive()
+  @Validator.IsNumber({
+    allowInfinity: false,
+    allowNaN: false,
+    maxDecimalPlaces: 2,
   })
   price: number;
 
