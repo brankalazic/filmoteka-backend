@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `administrator` (
   UNIQUE KEY `uq_administrator_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table filmoteka.administrator: ~4 rows (approximately)
+-- Dumping data for table filmoteka.administrator: ~3 rows (approximately)
 DELETE FROM `administrator`;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
 INSERT INTO `administrator` (`administrator_id`, `username`, `password_hash`) VALUES
@@ -42,19 +42,39 @@ DROP TABLE IF EXISTS `cart`;
 CREATE TABLE IF NOT EXISTS `cart` (
   `cart_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
-  `movie_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`cart_id`),
   KEY `fk_cart_user_id` (`user_id`),
-  KEY `fk_cart_movie_id` (`movie_id`),
-  CONSTRAINT `fk_cart_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_cart_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table filmoteka.cart: ~0 rows (approximately)
 DELETE FROM `cart`;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+INSERT INTO `cart` (`cart_id`, `user_id`, `created_at`) VALUES
+	(9, 78, '2020-12-18 19:26:15');
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+
+-- Dumping structure for table filmoteka.cart_movie
+DROP TABLE IF EXISTS `cart_movie`;
+CREATE TABLE IF NOT EXISTS `cart_movie` (
+  `cart_movie_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cart_id` int(10) unsigned NOT NULL,
+  `movie_id` int(10) unsigned NOT NULL,
+  `quantity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`cart_movie_id`),
+  UNIQUE KEY `uq_cart_movie_cart_id_movie_id` (`cart_id`,`movie_id`),
+  KEY `fk_cart_movie_movie_id` (`movie_id`),
+  CONSTRAINT `fk_cart_movie_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_cart_movie_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table filmoteka.cart_movie: ~1 rows (approximately)
+DELETE FROM `cart_movie`;
+/*!40000 ALTER TABLE `cart_movie` DISABLE KEYS */;
+INSERT INTO `cart_movie` (`cart_movie_id`, `cart_id`, `movie_id`, `quantity`) VALUES
+	(4, 9, 13, 2);
+/*!40000 ALTER TABLE `cart_movie` ENABLE KEYS */;
 
 -- Dumping structure for table filmoteka.comment
 DROP TABLE IF EXISTS `comment`;
@@ -76,13 +96,14 @@ CREATE TABLE IF NOT EXISTS `comment` (
   CONSTRAINT `fk_comment_moderator_administrator_id` FOREIGN KEY (`moderator_administrator_id`) REFERENCES `administrator` (`administrator_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_rate_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_rate_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table filmoteka.comment: ~1 rows (approximately)
+-- Dumping data for table filmoteka.comment: ~0 rows (approximately)
 DELETE FROM `comment`;
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 INSERT INTO `comment` (`comment_id`, `user_id`, `movie_id`, `original_value`, `moderated_value`, `rating_value`, `status`, `moderator_administrator_id`, `created_at`) VALUES
-	(1, 77, 12, 'Very funny and interesting movie!', NULL, 6, 'pending', NULL, '2020-12-09 14:50:34');
+	(1, 77, 12, 'Very funny and interesting movie!', NULL, 6, 'pending', NULL, '2020-12-09 14:50:34'),
+	(2, 77, 13, 'Amazing with very good graphics.', NULL, 6, 'pending', NULL, '2020-12-12 18:45:16');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
 -- Dumping structure for table filmoteka.movie
@@ -97,26 +118,17 @@ CREATE TABLE IF NOT EXISTS `movie` (
   PRIMARY KEY (`movie_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table filmoteka.movie: ~16 rows (approximately)
+-- Dumping data for table filmoteka.movie: ~7 rows (approximately)
 DELETE FROM `movie`;
 /*!40000 ALTER TABLE `movie` DISABLE KEYS */;
 INSERT INTO `movie` (`movie_id`, `name`, `description`, `genre`, `year`, `rating`) VALUES
 	(7, 'Johnny English', 'Mr Johhny English is Funny Movie', 'comedy', '2013', 6.20),
-	(8, 'Transformers', 'autobots vs bad guys', 'action', '2013', 7.62),
+	(8, 'Full Moon Transformers', 'Action action action!!', 'action', '2012', 6.90),
 	(9, 'Kada jaganjci utihnu', 'horror movie with Anthony Hopkins in main role', 'horror', '2003', 8.22),
 	(10, 'LoL', 'Teenage movie', 'romance', '2013', 5.70),
 	(11, 'Beneath the Sky', 'yes', NULL, '2015', 4.70),
 	(12, 'Return of Johhny English', 'MI6 operative in dangerous and funny action-comedy', 'comedy', '2016', 6.32),
-	(13, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(14, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(15, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(16, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(17, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(18, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(19, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(20, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(21, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80),
-	(22, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80);
+	(13, 'Inception', 'inception movie good movie..', 'Naucna fantastika', '2012', 7.80);
 /*!40000 ALTER TABLE `movie` ENABLE KEYS */;
 
 -- Dumping structure for table filmoteka.movie_price
@@ -129,9 +141,9 @@ CREATE TABLE IF NOT EXISTS `movie_price` (
   PRIMARY KEY (`movie_price_id`),
   KEY `fk_movie_price_movie_id` (`movie_id`),
   CONSTRAINT `fk_movie_price_movie_id` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table filmoteka.movie_price: ~13 rows (approximately)
+-- Dumping data for table filmoteka.movie_price: ~4 rows (approximately)
 DELETE FROM `movie_price`;
 /*!40000 ALTER TABLE `movie_price` DISABLE KEYS */;
 INSERT INTO `movie_price` (`movie_price_id`, `movie_id`, `price`, `created_at`) VALUES
@@ -139,32 +151,27 @@ INSERT INTO `movie_price` (`movie_price_id`, `movie_id`, `price`, `created_at`) 
 	(2, 8, 1.39, '2020-12-09 13:57:58'),
 	(3, 8, 2.55, '2020-12-09 13:58:08'),
 	(4, 13, 1.99, '2020-12-09 18:23:46'),
-	(5, 14, 1.99, '2020-12-09 18:24:16'),
-	(6, 15, 1.99, '2020-12-09 18:25:17'),
-	(7, 16, 1.99, '2020-12-09 19:18:07'),
-	(8, 17, 1.99, '2020-12-09 20:00:56'),
-	(9, 18, 1.99, '2020-12-09 20:01:16'),
-	(10, 19, 1.99, '2020-12-09 20:05:59'),
-	(11, 20, 1.99, '2020-12-09 23:58:16'),
-	(12, 21, 1.99, '2020-12-10 00:04:25'),
-	(13, 22, 1.39, '2020-12-10 00:12:05');
+	(14, 8, 0.99, '2020-12-14 18:11:36');
 /*!40000 ALTER TABLE `movie_price` ENABLE KEYS */;
 
 -- Dumping structure for table filmoteka.order
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE IF NOT EXISTS `order` (
   `order_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
+  `cart_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `status` enum('paid','not paid','waiting') NOT NULL DEFAULT 'waiting',
   PRIMARY KEY (`order_id`),
-  KEY `fk_order_user_id` (`user_id`),
-  CONSTRAINT `fk_order_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `uq_order_cart_id` (`cart_id`),
+  KEY `fk_order_user_id` (`cart_id`) USING BTREE,
+  CONSTRAINT `fk_order_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table filmoteka.order: ~0 rows (approximately)
 DELETE FROM `order`;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` (`order_id`, `cart_id`, `created_at`, `status`) VALUES
+	(2, 9, '2020-12-18 19:29:53', 'paid');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 
 -- Dumping structure for table filmoteka.user
@@ -179,13 +186,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE KEY `uq_user_username` (`username`),
   UNIQUE KEY `uq_username_email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table filmoteka.user: ~1 rows (approximately)
+-- Dumping data for table filmoteka.user: ~2 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `username`, `email`, `forename`, `surname`, `password_hash`) VALUES
-	(77, 'lazvel', 'lazvel@gmail.com', 'laz', 'vel', 'lazvel123');
+	(77, 'lazvel', 'lazvel@gmail.com', 'laz', 'vel', 'lazvel123'),
+	(78, 'test', 'test@test.rs', 'Test', 'Testic', 'EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
