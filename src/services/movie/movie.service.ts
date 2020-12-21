@@ -6,8 +6,9 @@ import { MoviePrice } from "src/entities/movie-price.entity";
 import { Movie } from "src/entities/movie.entity";
 import { AddMovieDto } from "src/dtos/movie/add.movie.dto";
 import { ApiResponse } from "src/misc/api.response.class";
-import { Repository } from "typeorm";
+import { In, Repository } from "typeorm";
 import { EditMovieDto } from "src/dtos/movie/edit.movie.dto";
+import { MovieSearchDto } from "src/dtos/movie/movie.search.dto";
 
 @Injectable()
 export class MovieService extends TypeOrmCrudService<Movie> {
@@ -81,5 +82,77 @@ export class MovieService extends TypeOrmCrudService<Movie> {
                 "moviePrices",
             ]
         });
+    }
+
+    async search(data: MovieSearchDto): Promise<Movie[] | ApiResponse> {
+        const builder = await this.movie.createQueryBuilder('movie');
+
+        builder.innerJoinAndSelect(
+            "movie.moviePrices", 
+            "mp", 
+            "mp.createdAt = (SELECT MAX(mp.createdAt) FROM movie_price AS mp WHERE mp.movie_id = movie.movie_id)" //illegal practic
+        
+        );
+
+        builder.where('movie.genre = :genre', { genre: data.genre });
+
+        if (data.keywords && data.keywords.length > 0) {
+            builder.andWhere(`(
+                                movie.name LIKE :kw OR 
+                                movie.description LIKE :kw
+                                )`, 
+                                {kw: '%' + data.keywords.trim() + '%'});
+        }
+
+        if (data.priceMin && typeof data.priceMin === 'number' ) {
+            builder.andWhere('mp.price >= :min', { min: data.priceMin });
+        }
+
+        if (data.priceMax && typeof data.priceMax === 'number' ) {
+            builder.andWhere('mp.price <= :max', { max: data.priceMax });
+        }
+
+        let orderBy = 'movie.name';
+        let orderDirection: 'ASC' | 'DESC' = 'ASC';
+
+        if (data.orderBy) {
+            orderBy = data.orderBy;
+
+            if (orderBy === 'price') {
+                orderBy = 'mp.price'; 
+            }
+
+            if (orderBy === 'name') {
+                orderBy = 'movie.name'; 
+            }
+        }
+
+        if (data.orderDirection) {
+            orderDirection = data.orderDirection;
+        }
+
+        builder.orderBy(orderBy, orderDirection);
+
+        let page = 0;
+        let perPage: 5 | 10 | 25 | 50 | 75 = 25;
+
+        if (data.page && typeof data.page === 'number') {
+            page = data.page;
+        }
+
+        if (data.itemsPerPage && typeof data.itemsPerPage === 'number') {
+            perPage = data.itemsPerPage;
+        }
+
+        builder.skip(page * perPage);
+        builder.take(perPage);
+
+        let movies = await builder.getMany();
+
+        if (movies.length === 0) {
+            return new ApiResponse("ok", 0, "No movies found for these search parameters.");
+        }
+        
+        return movies;
     }
 }
