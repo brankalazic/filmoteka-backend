@@ -6,6 +6,7 @@ import { MovieService } from "src/services/movie/movie.service";
 import { EditMovieDto } from "src/dtos/movie/edit.movie.dto";
 import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
 import { RoleCheckerGuard } from "src/misc/role.checker.guard";
+import { MovieSearchDto } from "src/dtos/movie/movie.search.dto";
 
 @Controller('api/movie')
 @Crud({
@@ -65,5 +66,12 @@ export class MovieController {
     @AllowToRoles('administrator')
     editFullMovie(@Param('id') id: number, @Body() data: EditMovieDto) {
         return this.service.editFullMovie(id, data);
+    }
+
+    @Post('search')
+    @UseGuards(RoleCheckerGuard)
+    @AllowToRoles('administrator', 'user')
+    async search(@Body() data: MovieSearchDto): Promise<Movie[]> {
+        return await this.service.search(data);
     }
 }
