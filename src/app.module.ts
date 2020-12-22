@@ -24,6 +24,9 @@ import { UserService } from './services/user/user.service';
 import { CartMovie } from './entities/cart-movie.entity';
 import { CartService } from './services/cart/cart.service';
 import { OrderService } from './services/order/order.service';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { MailConfig } from 'config/mail.config';
+import { OrderMailer } from './services/order/order.mailer.service';
 
 
 @Module({
@@ -55,7 +58,14 @@ import { OrderService } from './services/order/order.service';
       MoviePrice,
       Order,
       CartMovie
-    ])
+    ]),
+    MailerModule.forRoot({
+      transport: 'smtps://' + MailConfig.username + ':' + MailConfig.password + '@' + MailConfig.hostname,
+      
+      defaults: {
+        from: MailConfig.senderEmail,
+      },
+    }),
   ],
   controllers: [
     AppController,
@@ -74,6 +84,7 @@ import { OrderService } from './services/order/order.service';
     CommentService,
     CartService,
     OrderService,
+    OrderMailer
   ],
   exports: [
     AdministartorService,
