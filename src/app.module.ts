@@ -28,6 +28,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { MailConfig } from 'config/mail.config';
 import { OrderMailer } from './services/order/order.mailer.service';
 import { AdministratorOrderController } from './controllers/api/admininistrator.order.controller';
+import { UserToken } from './entities/user-token.entity';
 
 
 @Module({
@@ -47,7 +48,8 @@ import { AdministratorOrderController } from './controllers/api/admininistrator.
         Movie,
         MoviePrice,
         Order,
-        CartMovie
+        CartMovie,
+        UserToken
       ]
     }),
     TypeOrmModule.forFeature([
@@ -58,7 +60,8 @@ import { AdministratorOrderController } from './controllers/api/admininistrator.
       Movie,
       MoviePrice,
       Order,
-      CartMovie
+      CartMovie,
+      UserToken
     ]),
     MailerModule.forRoot({
       transport: 'smtps://' + MailConfig.username + ':' + MailConfig.password + '@' + MailConfig.hostname,
