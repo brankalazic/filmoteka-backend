@@ -7,6 +7,10 @@ import { EditMovieDto } from "src/dtos/movie/edit.movie.dto";
 import { AllowToRoles } from "src/misc/allow.to.roles.descriptor";
 import { RoleCheckerGuard } from "src/misc/role.checker.guard";
 import { MovieSearchDto } from "src/dtos/movie/movie.search.dto";
+<<<<<<< HEAD
+=======
+import { ApiResponse } from "src/misc/api.response.class";
+>>>>>>> fdebe10012045b5996515786a7301c1fa601dd06
 
 @Controller('api/movie')
 @Crud({
@@ -71,7 +75,11 @@ export class MovieController {
     @Post('search')
     @UseGuards(RoleCheckerGuard)
     @AllowToRoles('administrator', 'user')
+<<<<<<< HEAD
     async search(@Body() data: MovieSearchDto): Promise<Movie[]> {
+=======
+    async search(@Body() data: MovieSearchDto): Promise<Movie[] | ApiResponse> {
+>>>>>>> fdebe10012045b5996515786a7301c1fa601dd06
         return await this.service.search(data);
     }
 }

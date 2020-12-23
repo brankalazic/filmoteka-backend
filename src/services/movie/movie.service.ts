@@ -84,6 +84,7 @@ export class MovieService extends TypeOrmCrudService<Movie> {
         });
     }
 
+<<<<<<< HEAD
     async search(data: MovieSearchDto): Promise<Movie[]> {
         const builder = await this.movie.createQueryBuilder("movie");
     
@@ -122,6 +123,48 @@ export class MovieService extends TypeOrmCrudService<Movie> {
 
             if(orderBy === 'name') {
                 orderBy = 'movie.name';
+=======
+    async search(data: MovieSearchDto): Promise<Movie[] | ApiResponse> {
+        const builder = await this.movie.createQueryBuilder('movie');
+
+        builder.innerJoinAndSelect(
+            "movie.moviePrices", 
+            "mp", 
+            "mp.createdAt = (SELECT MAX(mp.createdAt) FROM movie_price AS mp WHERE mp.movie_id = movie.movie_id)" //illegal practic
+        
+        );
+
+        builder.where('movie.genre = :genre', { genre: data.genre });
+
+        if (data.keywords && data.keywords.length > 0) {
+            builder.andWhere(`(
+                                movie.name LIKE :kw OR 
+                                movie.description LIKE :kw
+                                )`, 
+                                {kw: '%' + data.keywords.trim() + '%'});
+        }
+
+        if (data.priceMin && typeof data.priceMin === 'number' ) {
+            builder.andWhere('mp.price >= :min', { min: data.priceMin });
+        }
+
+        if (data.priceMax && typeof data.priceMax === 'number' ) {
+            builder.andWhere('mp.price <= :max', { max: data.priceMax });
+        }
+
+        let orderBy = 'movie.name';
+        let orderDirection: 'ASC' | 'DESC' = 'ASC';
+
+        if (data.orderBy) {
+            orderBy = data.orderBy;
+
+            if (orderBy === 'price') {
+                orderBy = 'mp.price'; 
+            }
+
+            if (orderBy === 'name') {
+                orderBy = 'movie.name'; 
+>>>>>>> fdebe10012045b5996515786a7301c1fa601dd06
             }
         }
 
@@ -130,7 +173,11 @@ export class MovieService extends TypeOrmCrudService<Movie> {
         }
 
         builder.orderBy(orderBy, orderDirection);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> fdebe10012045b5996515786a7301c1fa601dd06
         let page = 0;
         let perPage: 5 | 10 | 25 | 50 | 75 = 25;
 
@@ -145,6 +192,7 @@ export class MovieService extends TypeOrmCrudService<Movie> {
         builder.skip(page * perPage);
         builder.take(perPage);
 
+<<<<<<< HEAD
         let movieIds = (await builder.getMany()).map(movie => movie.movieId);
 
         return await this.movie.find({
@@ -153,5 +201,14 @@ export class MovieService extends TypeOrmCrudService<Movie> {
                 "moviePrices"
             ]
         });
+=======
+        let movies = await builder.getMany();
+
+        if (movies.length === 0) {
+            return new ApiResponse("ok", 0, "No movies found for these search parameters.");
+        }
+        
+        return movies;
+>>>>>>> fdebe10012045b5996515786a7301c1fa601dd06
     }
 }
