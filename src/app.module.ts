@@ -36,7 +36,7 @@ import { UserToken } from './entities/user-token.entity';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: DatabaseConfiguration.hostname,
-      port: 3306, // 3306 UROS I BRANKA
+      port: 3306, 
       username: DatabaseConfiguration.username,
       password: DatabaseConfiguration.password,
       database: DatabaseConfiguration.database,
